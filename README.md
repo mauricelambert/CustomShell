@@ -23,7 +23,7 @@ pip install CustomShell
  - Python:
  ```python
  import CustomShell
- shell()
+ CustomShell.shell()
  ```
 
  ![Demo](./demo.JPG)
