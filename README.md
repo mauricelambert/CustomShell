@@ -26,7 +26,7 @@ pip install CustomShell
  shell()
  ```
 
- [![Demo](./demo.JPG)]
+ ![Demo](./demo.JPG)
 
 ## Configuration
 
