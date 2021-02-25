@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module CustomShell</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>CustomShell</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="customshell.py">customshell.py</a></font></td></tr></table>
+    <p><tt>This&nbsp;script&nbsp;implement&nbsp;a&nbsp;Custom&nbsp;<a href="#Shell">Shell</a>.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="ntpath.html">ntpath</a><br>
+</td><td width="25%" valign=top><a href="platform.html">platform</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="cmd.html#Cmd">cmd.Cmd</a>(<a href="builtins.html#object">builtins.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="CustomShell.html#Shell">Shell</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Shell">class <strong>Shell</strong></a>(<a href="cmd.html#Cmd">cmd.Cmd</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;implement&nbsp;the&nbsp;custom&nbsp;shell.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="CustomShell.html#Shell">Shell</a></dd>
+<dd><a href="cmd.html#Cmd">cmd.Cmd</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Shell-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Instantiate&nbsp;a&nbsp;line-oriented&nbsp;interpreter&nbsp;framework.<br>
+&nbsp;<br>
+The&nbsp;optional&nbsp;argument&nbsp;'completekey'&nbsp;is&nbsp;the&nbsp;readline&nbsp;name&nbsp;of&nbsp;a<br>
+completion&nbsp;key;&nbsp;it&nbsp;defaults&nbsp;to&nbsp;the&nbsp;Tab&nbsp;key.&nbsp;If&nbsp;completekey&nbsp;is<br>
+not&nbsp;None&nbsp;and&nbsp;the&nbsp;readline&nbsp;module&nbsp;is&nbsp;available,&nbsp;command&nbsp;completion<br>
+is&nbsp;done&nbsp;automatically.&nbsp;The&nbsp;optional&nbsp;arguments&nbsp;stdin&nbsp;and&nbsp;stdout<br>
+specify&nbsp;alternate&nbsp;input&nbsp;and&nbsp;output&nbsp;file&nbsp;objects;&nbsp;if&nbsp;not&nbsp;specified,<br>
+sys.stdin&nbsp;and&nbsp;sys.stdout&nbsp;are&nbsp;used.</tt></dd></dl>
+
+<dl><dt><a name="Shell-check_config_file"><strong>check_config_file</strong></a>(self) -&gt; bool</dt><dd><tt>Check&nbsp;the&nbsp;config&nbsp;file&nbsp;and&nbsp;write&nbsp;it&nbsp;(with&nbsp;default&nbsp;config)&nbsp;if&nbsp;not&nbsp;exist.</tt></dd></dl>
+
+<dl><dt><a name="Shell-default"><strong>default</strong></a>(self, arg: str) -&gt; None</dt><dd><tt>Execute&nbsp;command&nbsp;line.</tt></dd></dl>
+
+<dl><dt><a name="Shell-do_cd"><strong>do_cd</strong></a>(self, arg: str) -&gt; None</dt><dd><tt>Command&nbsp;cd&nbsp;to&nbsp;change&nbsp;the&nbsp;current&nbsp;directory.</tt></dd></dl>
+
+<dl><dt><a name="Shell-do_exit"><strong>do_exit</strong></a>(self, arg: str) -&gt; None</dt><dd><tt>Command&nbsp;exit,&nbsp;quit&nbsp;and&nbsp;close&nbsp;the&nbsp;shell&nbsp;with&nbsp;error&nbsp;code&nbsp;0.</tt></dd></dl>
+
+<dl><dt><a name="Shell-format"><strong>format</strong></a>(self, string: str) -&gt; str</dt><dd><tt>This&nbsp;fonction&nbsp;format&nbsp;string&nbsp;template.</tt></dd></dl>
+
+<dl><dt><a name="Shell-get_config"><strong>get_config</strong></a>(self, section: str, value: str) -&gt; ~Config</dt><dd><tt>This&nbsp;function&nbsp;return&nbsp;config&nbsp;or&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Shell-postcmd"><strong>postcmd</strong></a>(self, stop: bool, arg: str) -&gt; bool</dt><dd><tt>This&nbsp;function&nbsp;re-write&nbsp;the&nbsp;prompt&nbsp;value.</tt></dd></dl>
+
+<dl><dt><a name="Shell-postloop"><strong>postloop</strong></a>(self) -&gt; None</dt><dd><tt>This&nbsp;function&nbsp;print&nbsp;quit&nbsp;and&nbsp;change&nbsp;the&nbsp;Unix&nbsp;<a href="#Shell">Shell</a>&nbsp;Color.</tt></dd></dl>
+
+<dl><dt><a name="Shell-precmd"><strong>precmd</strong></a>(self, arg: str) -&gt; str</dt><dd><tt>This&nbsp;function&nbsp;change&nbsp;ALIAS&nbsp;into&nbsp;real&nbsp;command.</tt></dd></dl>
+
+<dl><dt><a name="Shell-preloop"><strong>preloop</strong></a>(self) -&gt; None</dt><dd><tt>This&nbsp;function&nbsp;print&nbsp;intro&nbsp;and&nbsp;change&nbsp;the&nbsp;Unix&nbsp;<a href="#Shell">Shell</a>&nbsp;Color.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="cmd.html#Cmd">cmd.Cmd</a>:<br>
+<dl><dt><a name="Shell-cmdloop"><strong>cmdloop</strong></a>(self, intro=None)</dt><dd><tt>Repeatedly&nbsp;issue&nbsp;a&nbsp;prompt,&nbsp;accept&nbsp;input,&nbsp;parse&nbsp;an&nbsp;initial&nbsp;prefix<br>
+off&nbsp;the&nbsp;received&nbsp;input,&nbsp;and&nbsp;dispatch&nbsp;to&nbsp;action&nbsp;methods,&nbsp;passing&nbsp;them<br>
+the&nbsp;remainder&nbsp;of&nbsp;the&nbsp;line&nbsp;as&nbsp;argument.</tt></dd></dl>
+
+<dl><dt><a name="Shell-columnize"><strong>columnize</strong></a>(self, list, displaywidth=80)</dt><dd><tt>Display&nbsp;a&nbsp;list&nbsp;of&nbsp;strings&nbsp;as&nbsp;a&nbsp;compact&nbsp;set&nbsp;of&nbsp;columns.<br>
+&nbsp;<br>
+Each&nbsp;column&nbsp;is&nbsp;only&nbsp;as&nbsp;wide&nbsp;as&nbsp;necessary.<br>
+Columns&nbsp;are&nbsp;separated&nbsp;by&nbsp;two&nbsp;spaces&nbsp;(one&nbsp;was&nbsp;not&nbsp;legible&nbsp;enough).</tt></dd></dl>
+
+<dl><dt><a name="Shell-complete"><strong>complete</strong></a>(self, text, state)</dt><dd><tt>Return&nbsp;the&nbsp;next&nbsp;possible&nbsp;completion&nbsp;for&nbsp;'text'.<br>
+&nbsp;<br>
+If&nbsp;a&nbsp;command&nbsp;has&nbsp;not&nbsp;been&nbsp;entered,&nbsp;then&nbsp;complete&nbsp;against&nbsp;command&nbsp;list.<br>
+Otherwise&nbsp;try&nbsp;to&nbsp;call&nbsp;complete_&lt;command&gt;&nbsp;to&nbsp;get&nbsp;list&nbsp;of&nbsp;completions.</tt></dd></dl>
+
+<dl><dt><a name="Shell-complete_help"><strong>complete_help</strong></a>(self, *args)</dt></dl>
+
+<dl><dt><a name="Shell-completedefault"><strong>completedefault</strong></a>(self, *ignored)</dt><dd><tt>Method&nbsp;called&nbsp;to&nbsp;complete&nbsp;an&nbsp;input&nbsp;line&nbsp;when&nbsp;no&nbsp;command-specific<br>
+complete_*()&nbsp;method&nbsp;is&nbsp;available.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;it&nbsp;returns&nbsp;an&nbsp;empty&nbsp;list.</tt></dd></dl>
+
+<dl><dt><a name="Shell-completenames"><strong>completenames</strong></a>(self, text, *ignored)</dt></dl>
+
+<dl><dt><a name="Shell-do_help"><strong>do_help</strong></a>(self, arg)</dt><dd><tt>List&nbsp;available&nbsp;commands&nbsp;with&nbsp;"help"&nbsp;or&nbsp;detailed&nbsp;help&nbsp;with&nbsp;"help&nbsp;cmd".</tt></dd></dl>
+
+<dl><dt><a name="Shell-emptyline"><strong>emptyline</strong></a>(self)</dt><dd><tt>Called&nbsp;when&nbsp;an&nbsp;empty&nbsp;line&nbsp;is&nbsp;entered&nbsp;in&nbsp;response&nbsp;to&nbsp;the&nbsp;prompt.<br>
+&nbsp;<br>
+If&nbsp;this&nbsp;method&nbsp;is&nbsp;not&nbsp;overridden,&nbsp;it&nbsp;repeats&nbsp;the&nbsp;last&nbsp;nonempty<br>
+command&nbsp;entered.</tt></dd></dl>
+
+<dl><dt><a name="Shell-get_names"><strong>get_names</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Shell-onecmd"><strong>onecmd</strong></a>(self, line)</dt><dd><tt>Interpret&nbsp;the&nbsp;argument&nbsp;as&nbsp;though&nbsp;it&nbsp;had&nbsp;been&nbsp;typed&nbsp;in&nbsp;response<br>
+to&nbsp;the&nbsp;prompt.<br>
+&nbsp;<br>
+This&nbsp;may&nbsp;be&nbsp;overridden,&nbsp;but&nbsp;should&nbsp;not&nbsp;normally&nbsp;need&nbsp;to&nbsp;be;<br>
+see&nbsp;the&nbsp;<a href="#Shell-precmd">precmd</a>()&nbsp;and&nbsp;<a href="#Shell-postcmd">postcmd</a>()&nbsp;methods&nbsp;for&nbsp;useful&nbsp;execution&nbsp;hooks.<br>
+The&nbsp;return&nbsp;value&nbsp;is&nbsp;a&nbsp;flag&nbsp;indicating&nbsp;whether&nbsp;interpretation&nbsp;of<br>
+commands&nbsp;by&nbsp;the&nbsp;interpreter&nbsp;should&nbsp;stop.</tt></dd></dl>
+
+<dl><dt><a name="Shell-parseline"><strong>parseline</strong></a>(self, line)</dt><dd><tt>Parse&nbsp;the&nbsp;line&nbsp;into&nbsp;a&nbsp;command&nbsp;name&nbsp;and&nbsp;a&nbsp;string&nbsp;containing<br>
+the&nbsp;arguments.&nbsp;&nbsp;Returns&nbsp;a&nbsp;tuple&nbsp;containing&nbsp;(command,&nbsp;args,&nbsp;line).<br>
+'command'&nbsp;and&nbsp;'args'&nbsp;may&nbsp;be&nbsp;None&nbsp;if&nbsp;the&nbsp;line&nbsp;couldn't&nbsp;be&nbsp;parsed.</tt></dd></dl>
+
+<dl><dt><a name="Shell-print_topics"><strong>print_topics</strong></a>(self, header, cmds, cmdlen, maxcol)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="cmd.html#Cmd">cmd.Cmd</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="cmd.html#Cmd">cmd.Cmd</a>:<br>
+<dl><dt><strong>doc_header</strong> = 'Documented commands (type help &lt;topic&gt;):'</dl>
+
+<dl><dt><strong>doc_leader</strong> = ''</dl>
+
+<dl><dt><strong>identchars</strong> = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'</dl>
+
+<dl><dt><strong>intro</strong> = None</dl>
+
+<dl><dt><strong>lastcmd</strong> = ''</dl>
+
+<dl><dt><strong>misc_header</strong> = 'Miscellaneous help topics:'</dl>
+
+<dl><dt><strong>nohelp</strong> = '*** No help on %s'</dl>
+
+<dl><dt><strong>prompt</strong> = '(Cmd) '</dl>
+
+<dl><dt><strong>ruler</strong> = '='</dl>
+
+<dl><dt><strong>undoc_header</strong> = 'Undocumented commands:'</dl>
+
+<dl><dt><strong>use_rawinput</strong> = 1</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-main"><strong>main</strong></a>()</dt></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>CONFIG_VAR</strong> = {'{N}': &lt;built-in function gethostname&gt;, '{P}': &lt;built-in function getcwd&gt;, '{T}': &lt;function &lt;lambda&gt;&gt;, '{U}': &lt;function getuser&gt;, '{n}': &lt;function &lt;lambda&gt;&gt;, '{p}': &lt;function system&gt;, '{s}': &lt;function &lt;lambda&gt;&gt;}<br>
+<strong>__all__</strong> = ['Shell', 'CONFIG_VAR', 'main']</td></tr></table>
+</body></html>

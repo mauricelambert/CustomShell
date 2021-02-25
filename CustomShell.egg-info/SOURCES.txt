@@ -1,0 +1,13 @@
+CustomShell.html
+LICENSE.txt
+MANIFEST.in
+README.md
+demo.JPG
+setup.py
+CustomShell/CustomShell.py
+CustomShell/__init__.py
+CustomShell.egg-info/PKG-INFO
+CustomShell.egg-info/SOURCES.txt
+CustomShell.egg-info/dependency_links.txt
+CustomShell.egg-info/entry_points.txt
+CustomShell.egg-info/top_level.txt
