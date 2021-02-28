@@ -36,18 +36,32 @@ import platform
 
 Config = TypeVar("Config", str, None)
 
-DEFAULT_CONFIG = {
-    "DISPLAY": {
-        "prompt": "{U}@{N}:{P}$",
-        "start_intro": "echo '{color}{bgwhite}{color}{bold}{demo}'",
-        "end_intro": "echo '{color}{reset}'",
-        "intro": "{n}*** {T} - Welcome on CustomShell {U} ! ***{n}",
-        "start_quit": "echo '{color}{bgwhite}{color}{underline}{red}'",
-        "end_quit": "echo '{color}{reset}'",
-        "quit": "{n}*** Bye {U} ! - {T} ***{n}",
-    },
-    "ALIAS": {"pyc ": "python3 -c ", "pym ": "python3 -m "},
-}
+if os.name == "nt":
+    DEFAULT_CONFIG = {
+        "DISPLAY": {
+            "prompt": "{U}@{N}:{P}$",
+            "start_intro": "color a",
+            "end_intro": "",
+            "intro": "{n}*** {T} - Welcome on CustomShell {U} ! ***{n}",
+            "start_quit": "",
+            "end_quit": "color 4",
+            "quit": "{n}*** Bye {U} ! - {T} ***{n}",
+        },
+        "ALIAS": {"pyc ": "python3 -c ", "pym ": "python3 -m "},
+    }
+else:
+    DEFAULT_CONFIG = {
+        "DISPLAY": {
+            "prompt": "{U}@{N}:{P}$",
+            "start_intro": "echo '{color}{bgwhite}{color}{bold}{demo}'",
+            "end_intro": "echo '{color}{reset}'",
+            "intro": "{n}*** {T} - Welcome on CustomShell {U} ! ***{n}",
+            "start_quit": "echo '{color}{bgwhite}{color}{underline}{red}'",
+            "end_quit": "echo '{color}{reset}'",
+            "quit": "{n}*** Bye {U} ! - {T} ***{n}",
+        },
+        "ALIAS": {"pyc ": "python3 -c ", "pym ": "python3 -m "},
+    }
 
 CONFIG_VAR = {
     "{U}": getuser,
@@ -155,9 +169,10 @@ class Shell(Cmd):
 
         """ Check the config file and write it (with default config) if not exist. """
 
-        if not path.exists("Shell.ini"):
+        config_path = path.join(path.expanduser("~"), "Shell.ini")
+        if not path.exists(config_path):
             self.config.update(DEFAULT_CONFIG)
-            with open("Shell.ini", "w") as configfile:
+            with open(config_path, "w") as configfile:
                 self.config.write(configfile)
 
             return False
@@ -233,6 +248,7 @@ def main():
     shell = Shell()
     shell.cmdloop()
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main()
