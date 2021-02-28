@@ -26,13 +26,13 @@ pip install CustomShell
  CustomShell.shell()
  ```
 
- ![Demo](./demo.JPG)
+ ![Demonstration Picture - ./demo.JPG](./demo.JPG)
 
 ## Configuration
 
 ### Default
 
- - `Shell.ini` for **Linux** (default configuration):
+ - Default configuration `~/Shell.ini` for **Linux**:
  ```ini
  [DISPLAY]
  prompt = {U}@{N}:{P}$
@@ -49,7 +49,7 @@ pip install CustomShell
 
 
  ```
- - `Shell.ini` for **Windows** (not default configuration):
+ - Default configuration `C:\\Users\\<username>\\Shell.ini` for **Windows**:
  ```ini
  [DISPLAY]
  prompt = {U}@{N}:{P}$
@@ -67,7 +67,8 @@ pip install CustomShell
 
  ```
 
- You can add/change alias, with this configuration you can write write `pyc print('CustomShell')` to execute `python -c "print('CustomShell')"`.
+ You can add/change/remove alias.
+ Example with this configuration: you can write write `pyc print('CustomShell')` to execute `python -c "print('CustomShell')"`.
 
 ### Variables for configuration
 
@@ -90,6 +91,7 @@ pip install CustomShell
  - To make a white background you can use: `{color}{bgwhite}`.
  - To make a blue bold text you can use: `{color}{bold}{blue}`.
  - To make a red undernline text you can use: `{color}{underline}{red}`.
+ - To reset color: `{color}{reset}`.
 
 ## Links
 [Github Page](https://github.com/mauricelambert/CustomShell)
