@@ -47,13 +47,13 @@ if os.name == "nt":
             "end_quit": "color 4",
             "quit": "{n}*** Bye {U} ! - {T} ***{n}",
         },
-        "ALIAS": {"pyc ": "python3 -c ", "pym ": "python3 -m "},
+        "ALIAS": {"pyc ": "python -c ", "pym ": "python -m "},
     }
 else:
     DEFAULT_CONFIG = {
         "DISPLAY": {
             "prompt": "{U}@{N}:{P}$",
-            "start_intro": "echo '{color}{bgwhite}{color}{bold}{demo}'",
+            "start_intro": "echo '{color}{bgwhite}{color}{bold}{blue}'",
             "end_intro": "echo '{color}{reset}'",
             "intro": "{n}*** {T} - Welcome on CustomShell {U} ! ***{n}",
             "start_quit": "echo '{color}{bgwhite}{color}{underline}{red}'",
@@ -106,9 +106,10 @@ class Shell(Cmd):
         super().__init__()
 
         self.config = ConfigParser()
+        self.config_path = path.join(path.expanduser("~"), "Shell.ini")
 
         self.check_config_file()
-        self.config.read("Shell.ini")
+        self.config.read(self.config_path)
 
         self.config.setdefault("ALIAS", {})
 
@@ -169,10 +170,9 @@ class Shell(Cmd):
 
         """ Check the config file and write it (with default config) if not exist. """
 
-        config_path = path.join(path.expanduser("~"), "Shell.ini")
-        if not path.exists(config_path):
+        if not path.exists(self.config_path):
             self.config.update(DEFAULT_CONFIG)
-            with open(config_path, "w") as configfile:
+            with open(self.config_path, "w") as configfile:
                 self.config.write(configfile)
 
             return False

@@ -21,20 +21,9 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ###################
 
-__version__ = "0.0.3"
-__all__ = ["Shell", "CONFIG_VAR", "shell"]
+try:
+    from .CustomShell import main
+except ImportError:
+	from CustomShell import main
 
-from .CustomShell import (
-    Shell,
-    CONFIG_VAR,
-    main as shell
-)
-
-print(
-    """
-CustomShell  Copyright (C) 2021  Maurice Lambert
-This program comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it
-under certain conditions.
-"""
-)
+main()
