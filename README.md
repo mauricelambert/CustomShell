@@ -94,8 +94,9 @@ pip install CustomShell
  - To reset color: `{color}{reset}`.
 
 ## Links
-[Github Page](https://github.com/mauricelambert/CustomShell)
-[Documentation](https://mauricelambert.github.io/info/python/code/CustomShell.html)
+ - [Github Page](https://github.com/mauricelambert/CustomShell)
+ - [Documentation](https://mauricelambert.github.io/info/python/code/CustomShell.html)
+ - [Download as python executable](https://mauricelambert.github.io/info/python/code/CustomShell.pyz)
 
 ## Licence
 Licensed under the [GPL, version 3](https://www.gnu.org/licenses/).
