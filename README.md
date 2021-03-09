@@ -97,6 +97,7 @@ pip install CustomShell
  - [Github Page](https://github.com/mauricelambert/CustomShell)
  - [Documentation](https://mauricelambert.github.io/info/python/code/CustomShell.html)
  - [Download as python executable](https://mauricelambert.github.io/info/python/code/CustomShell.pyz)
+ - [Pypi package](https://pypi.org/project/CustomShell/)
 
 ## Licence
 Licensed under the [GPL, version 3](https://www.gnu.org/licenses/).
