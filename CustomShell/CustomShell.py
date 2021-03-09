@@ -185,7 +185,7 @@ class Shell(Cmd):
         try:
             chdir(arg)
         except FileNotFoundError:
-            system(arg)
+            system("cd " + arg)
 
     def do_exit(self, arg: str) -> None:
 
