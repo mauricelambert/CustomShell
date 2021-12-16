@@ -5,6 +5,7 @@ from subprocess import check_call
 from setuptools.command.develop import develop
 from setuptools.command.install import install
 
+
 class PostDevelopScript(develop):
     def run(self):
 
@@ -28,6 +29,7 @@ class PostDevelopScript(develop):
 
         develop.run(self)
 
+
 class PostInstallScript(install):
     def run(self):
 
@@ -50,6 +52,7 @@ class PostInstallScript(install):
             )  # Active colors in console
 
         install.run(self)
+
 
 setup(
     name=package.__name__,
@@ -89,4 +92,8 @@ setup(
         "console_scripts": ["Shell = CustomShell:main"],
     },
     license=package.__license__,
+    cmdclass={
+        "develop": PostDevelopScript,
+        "install": PostInstallScript,
+    },
 )

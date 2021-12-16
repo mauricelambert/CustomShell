@@ -23,7 +23,7 @@ This file implements a Custom Shell.
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ###################
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Maurice Lambert"
 __author_email__ = "mauricelambert434@gmail.com"
 __maintainer__ = "Maurice Lambert"
@@ -228,8 +228,7 @@ class Shell(Cmd):
             self.get_config(display, "quit") or diplay_conf["quit"]
         )
         self.start_quit_template = (
-            self.get_config(display, "start_quit")
-            or diplay_conf["start_quit"]
+            self.get_config(display, "start_quit") or diplay_conf["start_quit"]
         )
         self.end_quit_template = (
             self.get_config(display, "end_quit") or diplay_conf["end_quit"]
@@ -243,13 +242,21 @@ class Shell(Cmd):
     def get_last_command_state(self):
 
         """
-        This function returns the status of the last command. 
+        This function returns the status of the last command.
         """
 
         if self.state:
-            return "\x1b[31m\u2718\x1b[0m" if self.encoding == self.ref_encoding else "\x1b[41m\x1b[30m[X]\x1b[0m"
+            return (
+                "\x1b[31m\u2718\x1b[0m"
+                if self.encoding == self.ref_encoding
+                else "\x1b[41m\x1b[30m[X]\x1b[0m"
+            )
         else:
-            return "\x1b[32m\u2714\x1b[0m" if self.encoding == self.ref_encoding else "\x1b[42m\x1b[30m[V]\x1b[0m"
+            return (
+                "\x1b[32m\u2714\x1b[0m"
+                if self.encoding == self.ref_encoding
+                else "\x1b[42m\x1b[30m[V]\x1b[0m"
+            )
 
     def get_config(self, section: str, value: str) -> Config:
 
@@ -485,7 +492,7 @@ def main():
 
     logger.debug("Build the Shell...")
     logger.level = 51
-    
+
     shell = Shell()
 
     while True:
