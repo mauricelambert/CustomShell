@@ -28,8 +28,8 @@ python3 CustomShell.pyz
 Shell
 ```
 
-![Demonstration Linux](https://mauricelambert.github.io/info/python/code/demo_linux.JPG)
-![Demonstration Windows](https://mauricelambert.github.io/info/python/code/demo_windows.JPG)
+![Demonstration Linux](https://mauricelambert.github.io/info/python/code/CustomShell_linux.JPG)
+![Demonstration Windows](https://mauricelambert.github.io/info/python/code/CustomShell_windows.JPG)
 
 ### Python3
 
