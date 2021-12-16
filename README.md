@@ -1,74 +1,71 @@
+![CustomShell logo](https://mauricelambert.github.io/info/python/code/CustomShell_small.png "CustomShell logo")
+
 # CustomShell
 
 ## Description
-This script implement a Custom Shell.
+
+This package implements a Customizable Shell.
 
 ## Requirements
-This package require :
+
+This package require:
  - python3
  - python3 Standard Library
 
 ## Installation
+
 ```bash
 pip install CustomShell
 ```
 
-## Launcher
+## Usages
 
- - Command line:
- ```bash
- CustomShell
- ```
+### Command lines
 
- - Python:
- ```python
- import CustomShell
- CustomShell.shell()
- ```
+```bash
+python3 -m CustomShell
+python3 CustomShell.pyz
+Shell
+```
 
- ![Demonstration Picture - ./demo.JPG](./demo.JPG)
+![Demonstration Linux](https://mauricelambert.github.io/info/python/code/demo_linux.JPG)
+![Demonstration Windows](https://mauricelambert.github.io/info/python/code/demo_windows.JPG)
+
+### Python3
+
+```python
+from CustomShell import main
+main()
+
+from CustomShell import Shell
+shell = Shell()
+shell.cmdloop()
+```
 
 ## Configuration
 
 ### Default
 
- - Default configuration `~/Shell.ini` for **Linux**:
- ```ini
- [DISPLAY]
- prompt = {U}@{N}:{P}$
- start_intro = echo '{color}{bgwhite}{color}{bold}{blue}'
- end_intro = echo '{color}{reset}'
- intro = {n}*** {T} - Welcome on CustomShell {U} ! ***{n}
- start_quit = echo '{color}{bgwhite}{color}{underline}{red}'
- end_quit = echo '{color}{reset}'
- quit = {n}*** Bye {U} ! - {T} ***{n}
+Default configuration file path:
+ - **Windows**: `C:\\Users\\<username>\\Shell.ini`
+ - **Linux**: `~/Shell.ini`
 
- [ALIAS]
- pyc  = python3 -c 
- pym  = python3 -m 
+```ini
+[DISPLAY]
+prompt = {E} {color}{green}{U}{color}{reset}@{color}{green}{N}{color}{reset}:{color}{green}{P}{color}{reset}$
+start_intro = echo {a}
+end_intro = echo {a}
+intro = {S}     {V}     [{s}, {o}] {n}Python    {v}         [{e}]{n}CustomShell     {c}         [GPL-3.0]{n}{n}{color}{bgwhite}{color}{bold}{blue}*** {D} {T} - Welcome in CustomShell {U} ! ***{color}{reset}{n}
+start_quit = echo {a}
+end_quit = echo {a}
+quit = {n}{color}{bgwhite}{color}{underline}{red}*** {D} {T} - Bye {U} ! ***{color}{reset}{n}
 
-
- ```
- - Default configuration `C:\\Users\\<username>\\Shell.ini` for **Windows**:
- ```ini
- [DISPLAY]
- prompt = {U}@{N}:{P}$
- start_intro = color a
- end_intro = ""
- intro = {n}*** {T} - Welcome on CustomShell {U} ! ***{n}
- start_quit = color 4
- end_quit = ""
- quit = {n}*** Bye {U} ! - {T} ***{n}
-
- [ALIAS]
- pyc  = python -c 
- pym  = python -m 
+[ALIAS]
+pyc  = python -c 
+pym  = python -m 
 
 
- ```
-
- You can add/change/remove alias.
- Example with this configuration: you can write write `pyc print('CustomShell')` to execute `python -c "print('CustomShell')"`.
+```
 
 ### Variables for configuration
 
@@ -76,10 +73,19 @@ pip install CustomShell
 {U} = username,
 {N} = hostname,
 {P} = current path,
+{p} = directory,
 {T} = time,
-{p} = system (Windows, Linux...)
-{s} = os name (nt, posix...)
-{n} = new line (\n)
+{D} = date,
+{o} = operatoring system (win32, linux, ...),
+{S} = system (Windows, Linux, ...),
+{s} = system (nt, posix...),
+{n} = new line (\n),
+{a} = ASCII character 7 (sound),
+{e} = python executable,
+{v} = python version,
+{V} = system version,
+{c} = CustomShell version,
+{E} = status of the last command execution,
 ```
 
 ### Unix Color
@@ -94,10 +100,12 @@ pip install CustomShell
  - To reset color: `{color}{reset}`.
 
 ## Links
+
  - [Github Page](https://github.com/mauricelambert/CustomShell)
+ - [Pypi](https://pypi.org/project/CustomShell/)
  - [Documentation](https://mauricelambert.github.io/info/python/code/CustomShell.html)
- - [Download as python executable](https://mauricelambert.github.io/info/python/code/CustomShell.pyz)
- - [Pypi package](https://pypi.org/project/CustomShell/)
+ - [Executable](https://mauricelambert.github.io/info/python/code/CustomShell.pyz)
 
 ## Licence
+
 Licensed under the [GPL, version 3](https://www.gnu.org/licenses/).
