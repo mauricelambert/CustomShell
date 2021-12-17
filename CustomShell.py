@@ -23,7 +23,7 @@ This file implements a Custom Shell.
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ###################
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __author__ = "Maurice Lambert"
 __author_email__ = "mauricelambert434@gmail.com"
 __maintainer__ = "Maurice Lambert"

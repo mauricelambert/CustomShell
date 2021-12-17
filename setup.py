@@ -1,7 +1,7 @@
 import platform
 import CustomShell as package
 from setuptools import setup
-from subprocess import check_call
+from subprocess import check_call, DEVNULL
 from setuptools.command.develop import develop
 from setuptools.command.install import install
 
