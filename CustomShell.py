@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-This file implements a Custom Shell.
-"""
-
 ###################
-#    This file implement a Custom Shell.
-#    Copyright (C) 2021  Maurice Lambert
+#    This file implements a customizable shell.
+#    Copyright (C) 2021, 2022  Maurice Lambert
 
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -23,19 +19,23 @@ This file implements a Custom Shell.
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ###################
 
-__version__ = "0.1.2"
+"""
+This file implements a customizable shell.
+"""
+
+__version__ = "0.2.0"
 __author__ = "Maurice Lambert"
 __author_email__ = "mauricelambert434@gmail.com"
 __maintainer__ = "Maurice Lambert"
 __maintainer_email__ = "mauricelambert434@gmail.com"
 __description__ = """
-This package implements a Custom Shell.
+This file implements a customizable shell.
 """
 license = "GPL-3.0 License"
 __url__ = "https://github.com/mauricelambert/CustomShell"
 
 copyright = """
-CustomShell  Copyright (C) 2021  Maurice Lambert
+CustomShell  Copyright (C) 2021, 2022  Maurice Lambert
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions.
@@ -43,23 +43,47 @@ under certain conditions.
 __license__ = license
 __copyright__ = copyright
 
+print(copyright)
+
 __all__ = ["Shell", "CONFIG_VAR", "main"]
 
-from os import system, getcwd, path, chdir, listdir, device_encoding
+from os import system, getcwd, chdir, listdir, device_encoding, name
+from sys import platform, stderr, exit, executable, version_info
+from platform import node, system as operatingsystem, version
+from os.path import dirname, split, expanduser, join, isfile
 from configparser import ConfigParser, NoOptionError
 from logging import StreamHandler, Formatter, Logger
+from shlex import split as shellsplit
+from collections.abc import Callable
 from time import localtime, strftime
 from typing import TypeVar, List
+from contextlib import suppress
+from logging import getLogger
+from functools import partial
 from getpass import getuser
 from cmd import Cmd
-import platform
-import logging
-import sys
-import os
 
 Config = TypeVar("Config", str, None)
 
-if os.name == "nt":
+def get_cwd(function: Callable) -> None:
+
+    """
+    This function gets current directory and excepts exception.
+    """
+    
+    with suppress(FileNotFoundError):
+        Shell.cwd = getcwd()
+        return function()
+    
+    logger_warning(
+        "Current folder probably no longer exists, the current"
+        " directory is replaced by the parent directory."
+    )
+    cwd = Shell.cwd = dirname(Shell.cwd)
+    chdir(cwd)
+    return get_cwd(function)
+
+if name == "nt":
     DEFAULT_CONFIG = {
         "DISPLAY": {
             "prompt": (
@@ -116,22 +140,22 @@ else:
 
 CONFIG_VAR = {
     "{U}": getuser,
-    "{N}": platform.node,
-    "{P}": getcwd,
-    "{p}": lambda: path.dirname(getcwd()),
+    "{N}": node,
+    "{P}": partial(get_cwd, getcwd),
+    "{p}": partial(get_cwd, lambda: dirname(getcwd())),
     "{T}": lambda: strftime("%H:%M:%S", localtime()),
     "{D}": lambda: strftime("%y-%m-%d", localtime()),
-    "{S}": platform.system,
-    "{o}": lambda: sys.platform,
-    "{s}": lambda: os.name,
+    "{S}": operatingsystem,
+    "{o}": lambda: platform,
+    "{s}": lambda: name,
     "{n}": lambda: "\n",
     "{a}": lambda: "\7",
-    "{e}": lambda: sys.executable,
+    "{e}": lambda: executable,
     "{v}": lambda: (
-        f"{sys.version_info.major}."
-        f"{sys.version_info.minor}.{sys.version_info.micro}"
+        f"{version_info.major}."
+        f"{version_info.minor}.{version_info.micro}"
     ),
-    "{V}": platform.version,
+    "{V}": version,
     "{c}": lambda: __version__,
 }
 
@@ -163,10 +187,10 @@ UNIX_COLOR = {
 def get_custom_logger() -> Logger:
 
     """
-    This function create a custom logger.
+    This function builds a custom logger.
     """
 
-    logger = logging.getLogger(__name__)  # default logger.level == 0
+    logger = getLogger(__name__)
 
     formatter = Formatter(
         fmt=(
@@ -175,7 +199,7 @@ def get_custom_logger() -> Logger:
         ),
         datefmt="[%Y-%m-%d %H:%M:%S] ",
     )
-    stream = StreamHandler(stream=sys.stdout)
+    stream = StreamHandler(stream=stderr)
     stream.setFormatter(formatter)
 
     logger.addHandler(stream)
@@ -184,13 +208,21 @@ def get_custom_logger() -> Logger:
 
 
 logger: Logger = get_custom_logger()
+logger_debug: Callable = logger.debug
+logger_info: Callable = logger.info
+logger_warning: Callable = logger.warning
+logger_error: Callable = logger.error
+logger_critical: Callable = logger.critical
+logger_log: Callable = logger.log
 
 
 class Shell(Cmd):
 
     """
-    This class implement the custom shell.
+    This class implements the customizable shell.
     """
+    
+    cwd = getcwd()
 
     def __init__(self):
         super().__init__()
@@ -199,7 +231,7 @@ class Shell(Cmd):
         self.ref_encoding = "utf-8".casefold()
         self.state = None
         self.config = ConfigParser()
-        self.config_path = path.join(path.expanduser("~"), "Shell.ini")
+        self.config_path = join(expanduser("~"), "Shell.ini")
 
         self.check_config_file()
         self.config.read(self.config_path)
@@ -261,161 +293,156 @@ class Shell(Cmd):
     def get_config(self, section: str, value: str) -> Config:
 
         """
-        This function return config or None
+        This function returns config or None
         """
 
-        logger.debug("Get configuration...")
+        logger_debug(f"Getting configuration {section!r}[{value!r}]")
         try:
             return self.config.get(section, value)
         except NoOptionError:
-            logger.warning("Configuration error.")
+            logger_warning("Configuration not found {section!r}[{value!r}]")
             return None
 
     def format(self, string: str) -> str:
 
         """
-        This fonction format string template.
+        This fonction formats string template.
         """
 
-        logger.debug(f"Format string: {string}.")
-        for substring, function in self.var.items():
-            string = string.replace(substring, function())
+        logger_debug(f"Format string: {string!r}.")
+        [string := string.replace(substring, function()) for substring, function in self.var.items() if substring in string]
 
-        logger.debug(f"Add color: {string}.")
-        for color, code in UNIX_COLOR.items():
-            string = string.replace(color, code)
+        logger_debug(f"Add color: {string!r}.")
+        [string := string.replace(color, code) for color, code in UNIX_COLOR.items() if color in string]
 
-        logger.info(f"Formatted string: {string}")
+        logger_info(f"Formatted string: {string!r}")
         return string
 
     def check_config_file(self) -> bool:
 
         """
-        Check the config file and write it (with default config) if not exist.
+        This function returns True if config file
+        exists else writes it and returns False.
         """
 
-        logger.debug("Get configuration...")
+        logger_debug("Checking configuration file")
 
-        if not path.exists(self.config_path):
-            logger.info("Configuration file exist.")
+        if not isfile(self.config_path):
+            logger_info("Configuration file exists")
 
             self.config.update(DEFAULT_CONFIG)
-            logger.info("Configuration is updated.")
+            logger_info("Configuration is updated")
 
             with open(self.config_path, "w") as configfile:
                 self.config.write(configfile)
 
-            logger.info("Configuration is saved.")
+            logger_info("Configuration is saved")
             return False
         return True
 
-    def do_cd(self, arg: str) -> bool:
+    def do_cd(self, directory: str) -> bool:
 
         """
-        Command cd to change the current directory.
+        This function changes the current directory
         """
 
-        logger.debug("Command to change the directory.")
+        logger_debug("Command to change the directory")
 
         try:
-            chdir(arg)
+            chdir(directory)
         except FileNotFoundError:
-            logger.error('An error is raised on "cd" command.')
-            system("cd " + arg)
+            logger_error('An exception is raised on "cd" command.')
+            system("cd " + directory)
             self.state = True
         else:
             self.state = False
+            Shell.cwd = getcwd()
 
         return False
 
-    def do_GetConfigFile(self, arg: str) -> bool:
+    def do_GetConfigFile(self, args: str) -> bool:
 
         """
-        Command to get the configuration file path.
+        This function prints the configuration filename.
         """
 
-        logger.debug("Print the configuration file path.")
+        logger_debug("Print the configuration file path")
         print(self.config_path)
         self.state = False
         return False
 
-    def do_configfile(self, arg: str) -> bool:
+    def do_configfile(self, args: str) -> bool:
 
         """
-        Command to get the configuration file path.
+        This function prints the configuration filename.
         """
 
-        logger.debug("Print the configuration file path.")
+        logger_debug("Print the configuration file path")
         print(self.config_path)
         self.state = False
         return False
 
-    def do_help(self, arg: str) -> bool:
+    def do_help(self, args: str) -> bool:
 
         """
-        Command help.
+        This function executes the help command.
         """
 
-        logger.debug(f"Command help: {arg}")
-        self.state = system(f"help {arg}")
+        logger_debug(f"Command help: {arg}")
+        self.state = system("help " + args)
         return False
 
-    def do_exit(self, arg: str) -> bool:
+    def do_exit(self, args: str) -> bool:
 
         """
-        Command exit, quit and close the shell with error code 0.
+        This function closes and quits the shell
         """
 
-        logger.debug("Command exit.")
+        logger_debug("Command exit")
         return True
 
-    def do_quit(self, arg: str) -> bool:
+    def do_quit(self, args: str) -> bool:
 
         """
-        Command exit, quit and close the shell with error code 0.
+        This function closes and quits the shell
         """
 
-        logger.debug("Command quit.")
+        logger_debug("Command quit")
         return True
 
-    def default(self, arg: str) -> bool:
+    def default(self, command: str) -> bool:
 
         """
-        Execute command line.
+        This function executes the command line.
         """
 
-        logger.debug(f"Command: {arg}")
+        logger_debug(f"Command: {command!r}")
 
         try:
-            self.state = system(arg)
+            self.state = system(command)
         except KeyboardInterrupt:
-            logger.info("A KeyboardInterrupt error is raised.")
-            print('Use "exit" command to quit the terminal.')
+            logger_info("A KeyboardInterrupt error is raised")
+            print('Use "exit" or "quit" command to quit the terminal.')
 
         return False
 
-    def precmd(self, arg: str) -> str:
+    def precmd(self, command: str) -> str:
 
         """
-        This function change ALIAS into real command.
+        This function searchs and replaces command by alias.
         """
 
-        logger.debug("Resolve alias...")
+        logger_debug("Resolving alias")
+        [logger_info(f"Alias found: {alias!r} -> {command_!r}") or (command := command.replace(alias, command, 1)) for alias, command_ in self.config["ALIAS"].items() if command.startswith(alias)]
+        return command
 
-        for alias, command in self.config["ALIAS"].items():
-            if arg.startswith(alias):
-                logger.info(f"Alias found: {alias} -> {command}")
-                arg = arg.replace(alias, command, 1)
-
-        return arg
-
-    def postcmd(self, stop: bool, arg: str) -> bool:
+    def postcmd(self, stop: bool, args: str) -> bool:
 
         """
-        This function re-write the prompt value.
+        This function formats and prints the prompt value.
         """
 
-        logger.debug("Build the new prompt...")
+        logger_debug("Formating the new prompt")
         self.prompt = self.format(self.prompt_template)
 
         if stop:
@@ -426,28 +453,34 @@ class Shell(Cmd):
     def preloop(self) -> None:
 
         """
-        This function print intro and change the Unix Shell Color.
+        This function prints the start message and
+        changes the Unix Shell Colors.
         """
 
-        logger.debug("Initialize the shell...")
-        self.intro = self.format(self.intro_template)
-        self.onecmd(self.format(self.start_intro_template))
+        logger_debug("Initializing the shell")
+        format = self.format
+
+        self.intro = format(self.intro_template)
+        self.onecmd(format(self.start_intro_template))
         print(self.intro)
-        self.onecmd(self.format(self.end_intro_template))
+        self.onecmd(format(self.end_intro_template))
 
         self.intro = ""
 
     def postloop(self) -> None:
 
         """
-        This function print quit and change the Unix Shell Color.
+        This function prints the exit message and
+        changes the Unix Shell Color.
         """
 
-        logger.debug("Quit the shell...")
-        self.quit = self.format(self.quit_template)
-        self.onecmd(self.format(self.start_quit_template))
+        logger_debug("Quitting the shell")
+        format = self.format
+        
+        self.quit = format(self.quit_template)
+        self.onecmd(format(self.start_quit_template))
         print(self.quit)
-        self.onecmd(self.format(self.end_quit_template))
+        self.onecmd(format(self.end_quit_template))
 
         self.quit = ""
 
@@ -456,64 +489,65 @@ class Shell(Cmd):
     ) -> List[str]:
 
         """
-        This function defines the default completion (files an directories).
+        This functions returns filenames and directories for completion.
         """
 
-        logger.debug("File completion...")
-        args = line.split()
-        path_ = args[-1]
-        directory, file = path.split(path_)
-        return [f for f in listdir(directory or None) if f.startswith(file)]
+        logger_debug("Searching files for completion")
+        startfilename = shellsplit(line)[-1]
+        directory, filename = split(startfilename)
+        return [file for file in listdir(directory or None) if file.startswith(filename)]
 
     def completenames(self, line: str, state: str):
 
         """
-        This function defines the default completion (files an directories).
+        This functions returns filenames and directories for completion.
         """
 
-        logger.debug("File completion...")
-        args = line.split()
-        path_ = args[-1]
-        directory, file = path.split(path_)
-        return [f for f in listdir(directory or None) if f.startswith(file)]
+        logger_debug("Searching files for completion")
+        startfilename = shellsplit(line)[-1]
+        directory, filename = split(startfilename)
+        return [file for file in listdir(directory or None) if file.startswith(filename)]
 
     def complete_help(self, *args):
 
         """
-        This function returns a empty list.
+        This function returns a empty list for help completion.
         """
 
-        logger.debug("No completion for help command.")
+        logger_debug("No completion for help command.")
         return []
 
+def start(shell: Shell) -> int:
 
-def main():
-    print(copyright)
+    """
+    This function starts the shell and is recursive.
+    """
+    
+    logger_debug("Starting a cmdloop")
+    
+    try:
+        shell.cmdloop()
+    except Exception as e:
+        logger_error(f'An exception is raised: {e!r}')
+        return start(shell)
+    else:
+        logger_warning("Exit.")
+        return 0
+        
+    return 127
 
-    logger.debug("Build the Shell...")
+def main() -> int:
+    
+    """
+    The main function to starts the Shell from the command line.
+    """
+
+    logger_debug("Building the Shell.")
     logger.level = 51
 
     shell = Shell()
-
-    while True:
-        try:
-            logger.debug("Start a cmdloop...")
-            shell.cmdloop()
-        except Exception as e:
-            logger.error(f'An exception is raised: {e.__class__} "{e}"')
-            print(f"{e.__class__}: {e}")
-            if isinstance(FileNotFoundError, e):
-                logger.warning(
-                    "Current folder probably no longer exists, the current"
-                    " directory is replaced by the root directory."
-                )
-                chdir("/")
-        else:
-            logger.warning("Exit.")
-            break
-
-    return 0
+    return start(shell)
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    exit(main())

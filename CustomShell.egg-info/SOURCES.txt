@@ -1,4 +1,3 @@
-CustomShell.html
 CustomShell.py
 LICENSE.txt
 MANIFEST.in
