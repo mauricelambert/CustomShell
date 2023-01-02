@@ -63,7 +63,7 @@ setup(
     author_email=package.__author_email__,
     maintainer=package.__maintainer__,
     maintainer_email=package.__maintainer_email__,
-    description=package.__description__,
+    description=package.__description__.strip(),
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url=package.__url__,

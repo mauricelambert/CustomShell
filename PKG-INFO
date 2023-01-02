@@ -1,9 +1,7 @@
 Metadata-Version: 2.1
 Name: CustomShell
-Version: 0.2.0
-Summary: 
-This file implements a customizable shell.
-
+Version: 0.2.1
+Summary: This file implements a customizable shell.
 Home-page: https://github.com/mauricelambert/CustomShell
 Author: Maurice Lambert
 Author-email: mauricelambert434@gmail.com
